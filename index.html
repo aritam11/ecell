@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>Aritam</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <link href="https://fonts.googleapis.com/css?family=Merriweather|Montserrat|Sacramento" rel="stylesheet">
+  <link rel="icon" href="favicon.ico">
+  <link rel="stylesheet" href="form.css" >
+</head>
+
+<body>
+  <div class="top-container">
+    <img class="top-cloud" src="images/cloud.png" alt="cloud">
+    <div class="title-text">
+      <h1>I'm Aritam.</h1>
+      <h2>a <span class="pro">pro</span>grammer.</h2>
+      <h4>"The C in VIT stands for chance to grow and learn"</h4>
+      <a class="btn" href="#getin">CONTACT ME</a>
+    </div>
+    <img class="bottom-cloud" src="images/cloud.png" alt="cloud">
+    <img class="mountain" src="images/mountain.png" alt="mountain-img">
+  </div>
+
+  <div class="middle-container">
+    <div class="profile">
+      <h2>About</h2>
+      <img src="images/me.png" alt="angela-profile-img">
+      <h2>Hello.</h2>
+      <p class="intro">I am a Front End Developer.</p>
+      <p>aritamasthana@gmail.com</p>
+    </div>
+    <hr>
+    <div class="skills">
+      <div class="skill-row">
+        <img class="code-img" src="https://media.giphy.com/media/3p50WGyUqeU5W/giphy.gif" alt="code-img">
+
+        <h3>Education</h3>
+        <p>Joined school. Played video games . Started Programming . Somehow just passed Highschool. <br> Joined VIT . It Sucks . Ongoing.</p>
+        
+
+      </div>
+      <div class="skill-row">
+        <img class="chilli-img" src="images/king.png" alt="chillies-img">
+
+        <h3>Shawarma For Life</h3>
+        <p>But my best skill is actually in eating Shawarma. I am the undisputed king. I got 99 problems but Shawarma ain't one</p>
+
+      </div>
+    </div>
+  </div>
+    <hr>
+    <div id="getin" class="contact-me">
+      <h2>Get In Touch</h2>
+      <p class="contact-message">Love Shawarma and Java as much as I do? Let's talk about how awesome they are! We can code while we eat!</p>
+      <div class="row">
+        <div class="col-md-6 " id="form_container">
+            <form role="form" method="post" id="reused_form">
+    
+                <div class="row">
+                    <div class="col-sm-12 form-group">
+                        <label for="message">Message</label><br>
+                        <textarea class="form-control" type="textarea" id="message" name="message" maxlength="6000" rows="7"></textarea>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 form-group">
+                        <label for="name">Your Name</label><br>
+                        <input type="text" class="form-control" id="name" name="name" required>
+                    </div>
+                    <div class="col-sm-6 form-group">
+                        <label for="email">Email</label><br>
+                        <input type="email" class="form-control" id="email" name="email" required>
+                    </div>
+                </div>
+    
+    
+    
+                <div class="row">
+                    <div class="col-sm-12 form-group">
+                        <button type="submit" class="btn btn-lg btn-default pull-right" >Send →</button>
+                    </div>
+                </div>
+    
+            </form>
+            <div id="success_message" style="width:100%; height:100%; display:none; ">
+                <h3>Posted your message successfully!</h3>
+            </div>
+            <div id="error_message"
+                    style="width:100%; height:100%; display:none; ">
+                        <h3>Error</h3>
+                        Sorry there was an error sending your form.
+    
+            </div>
+        </div>
+    </div>
+
+
+  <div class="bottom-container">
+    <p class="copyright">© Aritam @ VIT Vellore.</p>
+  </div>
+
+  <script>
+    $(function()
+    {
+        function after_form_submitted(data)
+        {
+            if(data.result == 'success')
+            {
+                $('form#reused_form').hide();
+                $('#success_message').show();
+                $('#error_message').hide();
+            }
+            else
+            {
+                $('#error_message').append('<ul></ul>');
+    
+                jQuery.each(data.errors,function(key,val)
+                {
+                    $('#error_message ul').append('<li>'+key+':'+val+'</li>');
+                });
+                $('#success_message').hide();
+                $('#error_message').show();
+    
+                $('button[type="button"]', $form).each(function()
+                {
+                    $btn = $(this);
+                    label = $btn.prop('orig_label');
+                    if(label)
+                    {
+                        $btn.prop('type','submit' );
+                        $btn.text(label);
+                        $btn.prop('orig_label','');
+                    }
+                });
+    
+            }
+        }
+    
+      $('#reused_form').submit(function(e)
+          {
+            e.preventDefault();
+    
+            $form = $(this);
+            $('button[type="submit"]', $form).each(function()
+            {
+                $btn = $(this);
+                $btn.prop('type','button' );
+                $btn.prop('orig_label',$btn.text());
+                $btn.text('Sending ...');
+            });
+    
+    
+                        $.ajax({
+                    type: "POST",
+                    url: 'handler.php',
+                    data: $form.serialize(),
+                    success: after_form_submitted,
+                    dataType: 'json'
+                });
+    
+          });
+    });
+    </script>
+</body>
+
+</html>
